@@ -5,11 +5,6 @@ This project demonstrates the predictive analysis of a wine dataset to identify 
 ## Table of Contents
 1. [Dataset Overview](#dataset-overview)
 2. [Project Workflow](#project-workflow)
-   - [Data Loading and Preprocessing](#data-loading-and-preprocessing)
-   - [Exploratory Data Analysis (EDA)](#exploratory-data-analysis-eda)
-   - [Data Splitting and Normalization](#data-splitting-and-normalization)
-   - [Model Training and Hyperparameter Tuning](#model-training-and-hyperparameter-tuning)
-   - [Model Evaluation](#model-evaluation)
 3. [Requirements](#requirements)
 4. [Acknowledgments](#acknowledgments)
 5. [License](#license)
@@ -34,46 +29,10 @@ The dataset consists of various chemical features of wine samples, with the targ
 4. **Model Training and Hyperparameter Tuning**
     - We use a Support Vector Machine (SVM) classifier to predict the wine class.
     - A `GridSearchCV` is performed to optimize hyperparameters using cross-validation (`StratifiedKFold`) to ensure the model's robustness.
-    - The parameters tuned include kernel type, regularization parameter `C`, `gamma`, and `degree` for polynomial kernels.
-    
-    ```python
-    crossval = StratifiedKFold(n_splits=5, shuffle=True, random_state=0)
-    parameters = [
-        {"kernel": ["linear"], "C": [0.01, 0.1, 1, 10, 100]},
-        {"kernel": ["rbf"], "C": [0.01, 0.1, 1, 10, 100], "gamma": [0.01, 0.1, 1, 10, 100]},
-        {"kernel": ["poly"], "C": [0.01, 0.1, 1, 10, 100], "degree": np.arange(1, 5)}
-    ]
-
-    model = SVC()
-    clf = GridSearchCV(estimator=model, param_grid=parameters, cv=crossval, verbose=1, n_jobs=-1)
-    clf.fit(X_train, y_train)
-    
-    # Print best parameters
-    print("Best Parameters:", clf.best_params_)
-    ```
-
+      
 5. **Model Evaluation**
     - After training, the best model is evaluated on the test set.
     - Performance is measured using accuracy and the confusion matrix, which is also visualized for clarity.
-    
-    ```python
-    y_pred = clf.predict(X_test)
-    conf_matrix = confusion_matrix(y_test, y_pred)
-    
-    # Confusion matrix visualization
-    plt.figure(figsize=(8, 6))
-    sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='Blues')
-    plt.xlabel('Predicted labels')
-    plt.ylabel('True labels')
-    plt.title('Confusion Matrix')
-    plt.show()
-
-    # Model accuracy
-    fitted_model = clf.best_estimator_
-    predictions = fitted_model.predict(X_test)
-    accuracy = round(accuracy_score(y_test, predictions), 4)
-    print(f"Accuracy: {accuracy}")
-    ```
 
 ## Requirements
 
@@ -87,3 +46,16 @@ To run this project, ensure the following Python libraries are installed:
 You can install them using pip:
 ```bash
 pip install numpy pandas matplotlib seaborn scikit-learn
+```
+## Acknowledgments
+
+This project was developed as part of the Master in Data Science program at start2impact University. Special thanks to the team at start2impact for their guidance and support throughout the course. The program provided valuable insights and hands-on experience, enabling me to complete this project.
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Conclusion
+
+In this project, we built a classification model using SVMs to predict the wine producer based on the chemical composition of the wine. The model was optimized through grid search and cross-validation, and its performance was evaluated using accuracy and confusion matrix analysis.
+
